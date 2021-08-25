@@ -30,6 +30,10 @@ class Position(models.Model):
     last_active = models.DateTimeField(auto_now=True)  # last modified
     start_time = models.DateTimeField(auto_now_add=True)  # creation time
     status = models.CharField(max_length=1, default='A', choices=STATUS_CHOICES)
+    message = models.TextField(max_length=500, blank=True)
 
     def __str__(self):
         return '{0} position {1}, {2}'.format(self.object, self.latitude, self.longitude)
+
+    def message_preview(self):
+        return self.message[:50]

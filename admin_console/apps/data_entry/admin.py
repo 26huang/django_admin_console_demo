@@ -1,11 +1,17 @@
 from django.contrib import admin
 from .models import Object, Position
+from django.contrib.auth.models import Group
 
 admin.site.site_header = 'WARCHEST'
 
 # admin.site.register(Object)
 @admin.register(Object)
 class ObjectAdmin(admin.ModelAdmin):
+    # configuration for fields when adding new records
+    # exclude = ('name',)  # excludes fields
+    fields = ('name',)  # include fields
+    readonly_fields = ('name',)  # read only fields
+    # configurations for fields at display
     list_display = ('id', 'name',)
     list_editable = ('name',)
 
@@ -13,6 +19,14 @@ class ObjectAdmin(admin.ModelAdmin):
 # admin.site.register(Position)
 @admin.register(Position)
 class MoveAdmin(admin.ModelAdmin):
-    list_display = ('id', 'object', 'latitude', 'longitude', 'last_active', 'start_time', 'status',)
+    # configuration for fields when adding new records
+    fields = ('object', 'message',)
+    readonly_fields = ('message',)
+
+    # configurations for fields at display
+    list_display = ('id', 'object', 'latitude', 'longitude', 'last_active', 'start_time', 'status', 'message',)
     list_editable = ('status',)
-    list_filter = ('object',)
+    list_filter = ('object', 'id',)
+
+
+# admin.site.unregister(Group)
