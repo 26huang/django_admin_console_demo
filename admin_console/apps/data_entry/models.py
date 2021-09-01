@@ -37,3 +37,7 @@ class Position(models.Model):
 
     def message_preview(self):
         return self.message[:50]
+
+    def save(self, *args, **kwargs):
+        self.message = '{0} has lat: {1} long: {2}'.format(self.object, self.latitude, self.longitude)
+        super().save(*args, **kwargs)
