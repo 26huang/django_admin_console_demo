@@ -9,11 +9,11 @@ admin.site.site_header = 'WARCHEST'
 class ObjectAdmin(admin.ModelAdmin):
     # configuration for fields when adding new records
     # exclude = ('name',)  # excludes fields
-    fields = ('name',)  # include fields
-    readonly_fields = ('name',)  # read only fields
+    fields = ('name', 'hash_val')  # include fields
+    readonly_fields = ('name', 'hash_val')  # read only fields
     # configurations for fields at display
-    list_display = ('id', 'name',)
-    list_editable = ('name',)
+    list_display = ('id', 'name', 'hash_val')
+    list_editable = ('name', 'hash_val')
 
 
 # admin.site.register(Position)
