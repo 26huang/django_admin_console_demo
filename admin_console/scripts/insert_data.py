@@ -1,5 +1,6 @@
-from apps.accounts.models import Customer, Gender
+from apps.accounts.models import Customer, Gender, ZipCode, Status
 
+# Insert lookup tables
 def add_gender_lookup(gender_list):
     for gender in gender_list:
         try:
@@ -12,10 +13,20 @@ gender_list = ['Male', 'Female']
 add_gender_lookup(gender_list)
 
 
-c1 = Customer(gender=Gender.objects.get(gender='Male'), name='Bob')
-c1.save()
+# Add zip code lookup
+def add_zip_lookup(zip_list):
+    for zip in zip_list:
+        try:
+            g = ZipCode(zip_code=zip)
+            g.save()
+        except BaseException as e:
+            print(e)
+
+zip_list = ['11111', '22222']
+add_zip_lookup(zip_list)
 
 
+# Add customers (many to one relationship)
 def add_customer(name, gender):
     try:
         if Customer.objects.filter(gender=Gender.objects.get(gender=gender), name=name).exists():
@@ -36,4 +47,16 @@ def add_customer(name, gender):
 add_customer('Bao', 'Female')
 add_customer('Bao', 'Unicorn')
 add_customer('Bao', 'Wizard')
+
+# Add active status (many to many relationship)
+def add_status(name, gender, zip_code, status):
+    gender_id = Gender.objects.get(gender=gender)
+    customer = Customer.objects.get(gender=gender_id, name=name)
+    zip_code = ZipCode.objects.get(zip_code=zip_code)
+    status = Status(customer=customer, zip_code=zip_code, active=status)
+    status.save()
+
+
+add_status('Bao', 'Unicorn', '11111', True)
+
 
